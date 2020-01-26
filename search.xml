@@ -4,6 +4,103 @@
   
     
     <entry>
+      <title><![CDATA[RxJS 光速入门]]></title>
+      <url>http://malcolmyu.github.io/2020/01/21/RxJS-Getting-Started/</url>
+      <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>众所周知，RxJS 的学习曲线十分陡峭。尽管网上已经存在诸多入门科普文章，但当年我作为一个新人，最直接的感受还是：一看文章天花乱坠，一写代码啥也不会。在经历了一个请求重试写了一整天的噩梦后，我决定把我的心路历程记录下来，给在 RxJS 门槛前望之兴叹的同学们一点帮助。</p>
+<h2 id="看个例子"><a href="#看个例子" class="headerlink" title="看个例子"></a>看个例子</h2><p>我们先看一个前端语境下非常常见的例子<del>（也可能是一个较为常见的面试题，反正我经常问）</del>：</p>
+<p>假设页面上有几个垂类 Tab，每次切换都会发送请求更新下发的数据来源。那么如何才能保证用户在快速切换 Tab 时下发数据来源不错乱？</p>
+<p><img src="./tab.gif" alt="Tab 切换"></p>
+<p>大家的思路一般分为两种：</p>
+<ol>
+<li>从确保顺序入手：请求携带标识，请求返回后根据标识判断是否渲染；</li>
+<li>从降低频率入手：切换行为使用 debounce 消抖，尽量确保请求的有序；</li>
+</ol>
+<p>我们先不管这两种方法是否能完美工作，先尝试把它们用代码撸一遍：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">tabChange = <span class="function">(<span class="params">tabId</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">this</span>.tabId = tabId;</div><div class="line">  fetch(<span class="string">`/api?id=<span class="subst">$&#123;tabId&#125;</span>`</span>).then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.tabId === data.tabId) &#123;</div><div class="line">      render();</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">onTabChange = debounce(<span class="keyword">this</span>.tabChange, <span class="number">300</span>);</div></pre></td></tr></table></figure>
+<p>相信对有些追求极致的同学，看到这段代码本身可能就会眉头一皱：它有一些坏味道，但有说不清楚坏在哪里。</p>
+<p><img src="./not-easy.png" alt="事情并不简单"></p>
+<p>如果细细的品味一下，会发现它坏味道体现在以下两点：</p>
+<ol>
+<li><strong>竞态危害</strong>：第二行的 <code>tabId</code> 可能跟相隔两行的第 4 行的 <code>tabId</code> 的值并不相同，这一不确定性对于传统的同步代码一把梭的前端开发来说是非常令人头疼的。这个问题在多线程的语境下被称作“<a href="https://zh.wikipedia.org/wiki/競爭危害" target="_blank" rel="external">竞态危害（Race Hazard）</a>”，指一段代码的执行结果依赖两个异步逻辑的彼此的执行顺序。</li>
+<li>为解决上一问题所带来的<strong>模式混用</strong>：例如回调与 Promise 的混用、全局变量与局部变量的混用。代码如果几经流转，可能就会变成无尽 callback+Promise 地狱。</li>
+</ol>
+<p>为什么不试试神奇的 RxJS 呢？代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> tabSwitch$ = fromEvent(tab, <span class="string">'click'</span>);</div><div class="line"></div><div class="line">tabSwitch$.pipe(</div><div class="line">    debounceTime(<span class="number">300</span>),</div><div class="line">    switchMap(<span class="function">(<span class="params">curTab</span>) =&gt;</span> <span class="keyword">from</span>(fetch(<span class="string">`/api/<span class="subst">$&#123;curTab&#125;</span>`</span>))),</div><div class="line">    tap(render),</div><div class="line">).subscribe();</div></pre></td></tr></table></figure>
+<p>可以看到，虽然一下子变成了天书，但至少它模式统一、行数减少，非常的 exciting！</p>
+<p><img src="./tongxiao.jpeg" alt="通宵就完事了"></p>
+ <figcaption>异步代码有害身心，我建议你直接 RxJS</figcaption>
+
+
+<h2 id="怎么解决问题"><a href="#怎么解决问题" class="headerlink" title="怎么解决问题"></a>怎么解决问题</h2><p>先翻开这一篇天书，我们来看看 RxJS 是通过什么样的方式来解决模式混用和竞态危害两个问题的？</p>
+<h3 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable</h3><p>这一点其实也是 RxJS 最难理解的一点：它建立了一层高 Level 的抽象，创造了 <strong>Observable</strong> 的概念。</p>
+<p>有的文章在这里会引入“流（stream）”的概念，数据流跟 Observable 还是有一些区别，简单理解来说：<strong>流仅仅是随着时间维度而增加值的数组，它是 Observable 生产的数据类型</strong>。</p>
+<p><img src="./stream.gif" alt=""></p>
+<p><figcaption>每次鼠标点击位置 x 轴坐标产生的数据流</figcaption></p>
+
+<p>而 Observable 本身的概念要复杂的多。它的诞生在 Andre 的<a href="https://staltz.com/javascript-getter-setter-pyramid.html" target="_blank" rel="external">这篇文章</a>里有详尽的叙述，和 Promise 类似，是一个由<strong>生产者决定消费者何时消费数据</strong>的模型。</p>
+<p>一个典型的 Observable 如下所示：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> ob$ = Observable.create(<span class="function"><span class="params">observer</span> =&gt;</span> &#123; <span class="comment">// 生产者</span></div><div class="line">  observer.next(<span class="number">1</span>); <span class="comment">// 触发权柄控制在数据生产者这里</span></div><div class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    observer.next(<span class="number">2</span>);</div><div class="line">    observer.complete();</div><div class="line">  &#125;, <span class="number">1000</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">const</span> observer = &#123;  <span class="comment">// 消费者</span></div><div class="line">  next: <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'result: '</span>, result),</div><div class="line">  <span class="attr">error</span>: <span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.error(<span class="string">'something wrong occurred: '</span> + err),</div><div class="line">  <span class="attr">complete</span>: <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'done'</span>),</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ob$.subscribe(observer); <span class="comment">// 生产者调用消费者</span></div><div class="line"></div><div class="line"><span class="comment">// 输出结果：</span></div><div class="line"><span class="comment">// result: 1</span></div><div class="line"><span class="comment">// result: 2</span></div><div class="line"><span class="comment">// done</span></div></pre></td></tr></table></figure>
+<p>这里我们只需要记住 Observable 对象的两个特点：</p>
+<ol>
+<li>它跟 Promise 很类似，区别在于它可以提供多值传递，因此共有 <code>next</code>、<code>error</code>、<code>complete</code> 三种状态；</li>
+<li>它通过 <code>subscribe</code> 方法关联生产者与消费者，<code>subscribe</code> 像一条生产线的开关，只有它启动了生产者的生产才会开始；</li>
+</ol>
+<p>由于各种异步行为本身就是一个在时间维度上生产数据的过程，因此他们都可以通过 RxJS 的创建类操作符转换为 Observable 对象。例如上述代码中的 <code>fromEvent</code>，就是将 tab 的点击事件转换为一个 Observable 对象：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> tabSwitch$ = fromEvent(tab, <span class="string">'click'</span>);</div></pre></td></tr></table></figure>
+<p>RxJS 有大量的创建类操作符，可以把你能想象的所有同步异步事件进行统一转换，例如请求、DOM 事件、websocket 消息、定时器等。</p>
+<p><img src="./create.png" alt="创建类操作符"></p>
+ <p><figcaption>创建类操作符</figcaption></p>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/* 使用创建类操作符对异步事件输入的统一 */</span></div><div class="line"><span class="keyword">import</span> &#123; <span class="keyword">from</span>, fromEvent, <span class="keyword">of</span>, interval, merge &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>; </div><div class="line"><span class="keyword">const</span> ajax = <span class="function"><span class="params">()</span> =&gt;</span> fetch(url).then(<span class="function"><span class="params">v</span> =&gt;</span> v.json())</div><div class="line"></div><div class="line">merge(</div><div class="line">  <span class="keyword">from</span>([<span class="number">1</span> ,<span class="number">2</span>, <span class="number">3</span>]), <span class="comment">// 从数组多值创建</span></div><div class="line">  interval(<span class="number">3000</span>),  <span class="comment">// 定时器轮训创建</span></div><div class="line">  fromEvent(<span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>), <span class="string">'click'</span>), <span class="comment">// 按钮点击事件</span></div><div class="line">  <span class="keyword">of</span>(&#123; <span class="attr">hello</span>: <span class="string">'world'</span> &#125;), <span class="comment">// 单值创建</span></div><div class="line">  <span class="keyword">from</span>(ajax()),    <span class="comment">// 从接口请求创建</span></div><div class="line">).subscribe()</div></pre></td></tr></table></figure>
+<p>有了 Observable 对象，等于说 RxJS 给异步代码提供了统一的范式，那么它是具体怎么解决竞态危害的呢？</p>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><p>其实上面已经提到了创建类操作符，RxJS 还提供种类繁多的大量操作符，专门用于解决竞态危害：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> tabSwitch$ = fromEvent(tab, <span class="string">'click'</span>);</div><div class="line"></div><div class="line">tabSwitch$.pipe(</div><div class="line">    debounceTime(<span class="number">300</span>), <span class="comment">// 300ms 没有变动触发一次</span></div><div class="line">    switchMap(<span class="function">(<span class="params">curTab</span>) =&gt;</span> <span class="keyword">from</span>(fetch(<span class="string">`/api/<span class="subst">$&#123;curTab&#125;</span>`</span>))), <span class="comment">// 转换为新的请求流</span></div><div class="line">    tap(render),</div><div class="line">).subscribe();</div></pre></td></tr></table></figure>
+<p>例如上面提到的 <code>switchMap</code>、<code>debounceTime</code> 操作符，就是专门处理高阶 Observable 的顺序问题。</p>
+<p><img src="./operators.png" alt="操作符一览"></p>
+<p><figcaption>操作符整体概览</figcaption></p>
+
+<p>我们在这里先不深入探究每一种操作符的用途，只需要知道操作符是专门对数据流进行处理的工具即可。有了操作符就可以确保这一点：尽管数据在获取时纷繁芜杂，但操作符可以保证我们在处理数据时有条不紊。</p>
+<p>如果要用现实中的物体来做比喻，RxJS 就像个传送带：</p>
+<p><img src="./stream.png" alt="整体观感"></p>
+<ul>
+<li>传送带的头部有一个转换器，它能够把输入的各种各样的原料都捏成一个叫做 Observable 的物体；</li>
+<li>传送带的中段是一条生成线，生产线上有各种各样叫做操作符的机械臂，每个机械臂承担单一而确定的职责：有的机械臂会处理原料、有的会丢弃一些不需要的原料、有的会把原料聚合到一定个数才放到传送带上；</li>
+<li>传送带的尾部有一个叫做 <code>subscribe</code> 的工具人，只有它开动了按钮整条传送带才会运转，杜绝浪费。</li>
+</ul>
+<h2 id="TLDR"><a href="#TLDR" class="headerlink" title="TLDR"></a>TLDR</h2><p>作为一篇光速入门文章，不能说的太多，我们在这里尝试总结一下：</p>
+<ol>
+<li>RxJS 通过了Observable 和操作符，解决了异步编程的模式统一和时序问题，让你的异步代码规范而简洁；</li>
+<li>什么场景下应该使用 RxJS？根据上文所述，RxJS 是用于解决竞态危害问题的。如果你的业务场景中有大量的异步行为，而且它们的执行顺序错乱会导致输出的不正确，这时候就应该考虑引入 RxJS 来规范你的代码了。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=sTSQlYX5DU0" target="_blank" rel="external">What does it mean to be Reactive?</a>，核心思想。虽然口音很重，演讲风格也很浮夸😂</li>
+<li><a href="https://staltz.com/javascript-getter-setter-pyramid.html" target="_blank" rel="external">javascript-getter-setter-pyramid</a>，为什么要有 Observable，编程方式的底层解构。这里是英文原版，可以看这一篇<a href="https://zhuanlan.zhihu.com/p/98745778" target="_blank" rel="external">中文解析</a>；</li>
+<li><a href="https://medium.com/javascript-in-plain-english/promise-vs-observable-vs-stream-165a310e886f" target="_blank" rel="external">What are the differences between Promises, Observables, and Streams?</a></li>
+<li><a href="https://www.bilibili.com/video/av60370503" target="_blank" rel="external">RxJS - 封裝程式的藝術</a>，有些观点的中文视频讲解；</li>
+<li><a href="https://rxviz.com/" target="_blank" rel="external">RXViz，RxJS 代码图形化工具</a>；</li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> 技术研究 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Reactive </tag>
+            
+            <tag> RxJS </tag>
+            
+            <tag> Observable </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[《智能商业》读书杂感]]></title>
       <url>http://malcolmyu.github.io/2019/07/24/Notes-of-Business-Intelligence/</url>
       <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2019/07/24/Notes-of-Business-Intelligence/title.png" alt="redux" title="redux">
@@ -267,7 +364,7 @@
   <figcaption>图 2：在用户拥有 nickname 时 ProfileView 组件依赖树。与图 1 相反，fullName 现在处于惰性模式（lazy mode）且不观测 firstName 和 lastName</figcaption>
 
 <p>MobX 将始终尝试减少产生一致状态所需要的计算数。在本文的余下内容，我将介绍几个用于实现这一目标的几个策略。但在深入了解计算值和响应与状态保持同步的黑魔法之前，让我们先描述下 MobX 背后的原理：</p>
-<h3 id="对状态改变做出响应，总是比直接处理状态改变要好"><a href="#对状态改变做出响应，总是比直接处理状态改变要好" class="headerlink" title="对状态改变做出响应，总是比直接处理状态改变要好"></a>对状态改变做出响应，总是比直接处理状态改变要好</h3><blockquote>
+<h2 id="对状态改变做出响应，总是比直接处理状态改变要好"><a href="#对状态改变做出响应，总是比直接处理状态改变要好" class="headerlink" title="对状态改变做出响应，总是比直接处理状态改变要好"></a>对状态改变做出响应，总是比直接处理状态改变要好</h2><blockquote>
 <p>自动更新应用的状态是一个反模式，数据应该被衍生。</p>
 </blockquote>
 <p>应用程序触发的用来响应状态变化的任何命令式行为通常都会创建或改变某些值。换句话说，大多数行为都会管理一个<a href="https://medium.com/@mweststrate/pure-rendering-in-the-light-of-time-and-state-4b537d8d40b1" target="_blank" rel="external">本地缓存</a>。触发用户界面的更新？更新级联的值？通知后端？这些通常被认为是潜在的缓存失效。为了确保这些缓存同步，你需要订阅（subscribe）将来的状态更改，这会导致行为再次被触发。</p>
@@ -286,14 +383,14 @@
 </blockquote>
 <p>MobX 背后的第二个重要思想就是，对于任何复杂度超过 TodoMVC 的应用，我们通常都需要一个<strong>数据图表</strong>用来存储状态，而非标准化的树，这也是一种比较费脑子但是高效的方式。图允许引用的一致性、避免数据复制，因此可以保证衍生的数据永不过时。</p>
 <hr>
-<h3 id="MobX-是如何保证所有的衍生有效且一致"><a href="#MobX-是如何保证所有的衍生有效且一致" class="headerlink" title="MobX 是如何保证所有的衍生有效且一致"></a>MobX 是如何保证所有的衍生有效且一致</h3><p>解决方案就是：不缓存，只衍生。大家可能会问：这样搞不是代价很大么？不不不，事实上这样搞效率很高！原因其实上面已经解释过：MobX 并不运行所有的衍生，但能保证仅在一些响应中设计的计算值保持与可观测状态的同步。这种衍生被称作 reactive。再用电子表格的类比解释下：只有那些当前可见的公式或者一个间接使用的可见公式，在某个被观察的数据单元格发生数值变化时才需要重新计算。</p>
-<h4 id="惰性求值还是响应式求值"><a href="#惰性求值还是响应式求值" class="headerlink" title="惰性求值还是响应式求值"></a>惰性求值还是响应式求值</h4><p>那么不是使用直接或间接的响应来计算呢？你仍然可以随时检查计算值（如 fullName）的值。解决方案很简单：只要计算值不是可响应的，它就会惰性求值，正如普通的 getter 函数一样。不进行任何观察的惰性衍生可以在超出范围时简单的进行垃圾回收。还记得计算值应该始终是可观察应用状态的纯函数这一说法吗？原因就是：对于纯函数无所谓惰性还是非惰性求值；对于同样的可观测状态纯函数的求值总会得出相同的结果。</p>
-<h4 id="运行计算"><a href="#运行计算" class="headerlink" title="运行计算"></a>运行计算</h4><p>响应与计算值都被 MobX 用同样的方式运行。当重新计算触发时，回调函数会被推入<strong>衍生栈</strong>（当前正在运行衍生的函数栈）。只要重计算运行中，所有被访问的可观察对象将会把自己注册为衍生栈最顶部函数的依赖。如果计算值的值被衍生函数需要，且计算值已处在响应状态，那么这个值可以简单的被当做是最后一个值。否则它将把自身推入衍生栈，切换到响应模式并也开始计算。</p>
+<h2 id="MobX-是如何保证所有的衍生有效且一致"><a href="#MobX-是如何保证所有的衍生有效且一致" class="headerlink" title="MobX 是如何保证所有的衍生有效且一致"></a>MobX 是如何保证所有的衍生有效且一致</h2><p>解决方案就是：不缓存，只衍生。大家可能会问：这样搞不是代价很大么？不不不，事实上这样搞效率很高！原因其实上面已经解释过：MobX 并不运行所有的衍生，但能保证仅在一些响应中设计的计算值保持与可观测状态的同步。这种衍生被称作 reactive。再用电子表格的类比解释下：只有那些当前可见的公式或者一个间接使用的可见公式，在某个被观察的数据单元格发生数值变化时才需要重新计算。</p>
+<h3 id="惰性求值还是响应式求值"><a href="#惰性求值还是响应式求值" class="headerlink" title="惰性求值还是响应式求值"></a>惰性求值还是响应式求值</h3><p>那么不是使用直接或间接的响应来计算呢？你仍然可以随时检查计算值（如 fullName）的值。解决方案很简单：只要计算值不是可响应的，它就会惰性求值，正如普通的 getter 函数一样。不进行任何观察的惰性衍生可以在超出范围时简单的进行垃圾回收。还记得计算值应该始终是可观察应用状态的纯函数这一说法吗？原因就是：对于纯函数无所谓惰性还是非惰性求值；对于同样的可观测状态纯函数的求值总会得出相同的结果。</p>
+<h3 id="运行计算"><a href="#运行计算" class="headerlink" title="运行计算"></a>运行计算</h3><p>响应与计算值都被 MobX 用同样的方式运行。当重新计算触发时，回调函数会被推入<strong>衍生栈</strong>（当前正在运行衍生的函数栈）。只要重计算运行中，所有被访问的可观察对象将会把自己注册为衍生栈最顶部函数的依赖。如果计算值的值被衍生函数需要，且计算值已处在响应状态，那么这个值可以简单的被当做是最后一个值。否则它将把自身推入衍生栈，切换到响应模式并也开始计算。</p>
 <p><img src="figure4.png" alt="图 4"></p>
   <figcaption>图 4：在执行 ProfileView 的响应期间，一些可观查状态和计算值正在被观察。计算值可能会重新计算，这形成了图 1 中展示的依赖树。</figcaption>
 
 <p>计算完成后，我们会获得执行时访问的可观察列表。在 ProfileView 的例子里，这个列表仅包含 nickName 属性，或 nickName 和 fullName 属性。这一列表将会与前一个可观察列表进行比对。任何被移除的项将会被取消观察（计算值在这时候可能会从响应状态回退到惰性模式），任何添加的可观察这将会被观察知道下一次计算。例如 firstName 在将来发生改变，MobX 会知道 fullName 需要重新计算。这反过来将导致 ProfileView 被重新计算。下一个图标详细说明了这一过程。</p>
-<h4 id="传播（Propagating）状态变化"><a href="#传播（Propagating）状态变化" class="headerlink" title="传播（Propagating）状态变化"></a>传播（Propagating）状态变化</h4><p><img src="figure5.png" alt="图 5"></p>
+<h3 id="传播（Propagating）状态变化"><a href="#传播（Propagating）状态变化" class="headerlink" title="传播（Propagating）状态变化"></a>传播（Propagating）状态变化</h3><p><img src="figure5.png" alt="图 5"></p>
   <figcaption>图 5：在依赖树中修改值 1 产生的影响。虚线边框表示观察者将被标记为过时（stale）。数字表示计算的顺序。</figcaption>
 
 <p>衍生将对状态变化自动做出响应。所有的响应都<strong>同步发生</strong>，且更重要的是<strong>十分稳定</strong>（glitch-free）。当可观察值被修改时，执行如下算法：</p>
@@ -305,13 +402,13 @@
 </ol>
 <hr>
 <p>上面两段总结了可观察值和衍生之间在运行时的依赖关系，以及值的变化是如何在衍生之间传播的。现在你应该明白了一个<strong>响应</strong>基本上就是一个总是处在<strong>响应状态</strong>下的<strong>计算值</strong>。重要的是要意识到这种算法可以不用闭包，只需要用一堆指针数组便可有效实现。此外，MobX 还应用了一些本文没有讲述的其他的优化方式。</p>
-<h4 id="同步执行"><a href="#同步执行" class="headerlink" title="同步执行"></a>同步执行</h4><p>大家经常对 MobX 的同步运行感到吃惊（这一点像 RxJs 而不像 knockout）。这样有两个很大的优点：首先这样一直观察过期的衍生变得基本不可能，因此一个衍生值在影响他的值发生变化时可以被立即使用；其次折让堆栈追从和调试变得更容易，因为它避免了 Promise/async 库中常见的的无效堆栈。</p>
+<h3 id="同步执行"><a href="#同步执行" class="headerlink" title="同步执行"></a>同步执行</h3><p>大家经常对 MobX 的同步运行感到吃惊（这一点像 RxJs 而不像 knockout）。这样有两个很大的优点：首先这样一直观察过期的衍生变得基本不可能，因此一个衍生值在影响他的值发生变化时可以被立即使用；其次折让堆栈追从和调试变得更容易，因为它避免了 Promise/async 库中常见的的无效堆栈。</p>
 <figure class="highlight typescript"><table><tr><td class="code"><pre><div class="line">transaction(() =&gt; &#123;</div><div class="line">  michel.firstName = <span class="string">"Mich"</span>;</div><div class="line">  michel.lastName = <span class="string">"W."</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <figcaption>代码 2：一个事务的例子，这确保了没人可以直接观察类似 “Mich Weststate” 的值（见代码 1）</figcaption>
 
 <p>然而，同步执行也引入了对事务的需要。如果立即连续应用一些变化，更好的做法是在所有改变被应用之后对所有衍生重新求值。将所有行为包裹在<strong>事务</strong>（transcation）中可以实现这一点。事务简单的退出所有就绪通知知道事务块完成。注意事务仍然同步的运行和更新。</p>
 <p>本文总结了 MobX 大多数基本的实现细节。我们还没有涵盖所有的东西，但这也便于你去理解，例如组合计算值。通过组合可响应的计算，甚至可以将一个数据图表自动转化为另一个数据图表，并利用最小数量的补丁（patches）将衍生值保持一致。也可以轻松实现例如 map-reduce、使用不可变数据进行状态追踪、横向数据加载等复杂模式。更多的内容请听下回分解。</p>
-<h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><ol>
+<h2 id="太长不看"><a href="#太长不看" class="headerlink" title="太长不看"></a>太长不看</h2><ol>
 <li>复杂应用程序的状态最好使用<strong>图形</strong>来表示，以实现引用一致性，并保持最接近问题本身的抽象模型。</li>
 <li>不应该使用手动定义的订阅或游标来对状态的变化才去命令式的反应。这将不可避免的导致问题最终导致失效或超额订阅。</li>
 <li>使用<strong>运行时分析</strong>来决定观察者 → 可观察对象之间关系的<strong>最小可能集合</strong>。这导致了计算模型可以在没有观察到过期值的情况下确保最少量的衍生。</li>
