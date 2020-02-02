@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://malcolmyu.github.io/"/>
-  <updated>2020-01-31T16:09:21.391Z</updated>
+  <updated>2020-02-02T13:45:54.873Z</updated>
   <id>http://malcolmyu.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://malcolmyu.github.io/2020/01/29/Thinking-of-14th-D2/"/>
     <id>http://malcolmyu.github.io/2020/01/29/Thinking-of-14th-D2/</id>
     <published>2020-01-29T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.391Z</updated>
+    <updated>2020-02-02T13:45:54.873Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2020/01/29/Thinking-of-14th-D2/d2.png" alt="title" title="title">
 <p>于上月初参与了阿里在杭州举办的第 14 届 D2 创心，这次的专场基本是微前端+ServerLess，当时听完只是对 微前端的实践手段有所感悟，没有形成系统的总结。恰好最近看到阿里云栖社区将 <a href="https://developer.aliyun.com/article/740585" target="_blank" rel="external">D2 大部分议题资料</a>上传，趁着春节假期，将关心的话题重温了一遍，挑选一些有用的信息点分享给大家。</p>
@@ -128,7 +128,7 @@
     <link href="http://malcolmyu.github.io/2020/01/21/RxJS-Getting-Started/"/>
     <id>http://malcolmyu.github.io/2020/01/21/RxJS-Getting-Started/</id>
     <published>2020-01-21T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.391Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2020/01/21/RxJS-Getting-Started/title.gif" alt="title" title="title">
 <p>众所周知，RxJS 的学习曲线十分陡峭。尽管网上已经存在诸多入门科普文章，但当年我作为一个新人，最直接的感受还是：一看文章天花乱坠，一写代码啥也不会。在经历了一个请求重试写了一整天的噩梦后，我决定把我的心路历程记录下来，给在 RxJS 门槛前望之兴叹的同学们一点帮助。</p>
@@ -230,7 +230,7 @@
     <link href="http://malcolmyu.github.io/2019/07/24/Notes-of-Business-Intelligence/"/>
     <id>http://malcolmyu.github.io/2019/07/24/Notes-of-Business-Intelligence/</id>
     <published>2019-07-24T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2019/07/24/Notes-of-Business-Intelligence/title.png" alt="redux" title="redux">
 <p>智能商业的作者是阿里巴巴的曾鸣教授，可以看做是作者执鞭阿里巴巴十年的经验总结。</p>
@@ -308,7 +308,7 @@
     <link href="http://malcolmyu.github.io/2019/07/07/Tri-Color-Marking/"/>
     <id>http://malcolmyu.github.io/2019/07/07/Tri-Color-Marking/</id>
     <published>2019-07-07T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.391Z</updated>
+    <updated>2020-02-02T13:45:54.873Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>因为要做组内分享，最近看了一下<a href="https://book.douban.com/subject/26821357/" target="_blank" rel="external">《垃圾回收算法与实现》</a>，发现其实垃圾回收的算法基调基本上世纪 60 年代就已经提出来了，后世的框架只是在给这些框架做组合和修补的工作。抛掉老生常谈的分代假设不谈，V8 官博今年新发了一篇<a href="https://v8.dev/blog/trash-talk#incremental" target="_blank" rel="external">博文</a>介绍 V8 GC 新进展，讲到<a href="https://v8.js.cn/blog/concurrent-marking/" target="_blank" rel="external">增量回收</a>的话题。本以为增量 GC 是什么新鲜东西，实际上早在 1975 年的一篇<a href="https://www.cs.utexas.edu/users/EWD/transcriptions/EWD05xx/EWD520.html" target="_blank" rel="external">论文</a>中，大宗师 Dijkstra 就已经提出了这个问题的解决方案——<a href="https://en.wikipedia.org/wiki/Tracing_garbage_collection#Tri-color_marking" target="_blank" rel="external">三色标记算法</a>。</p>
 <a id="more"></a>
@@ -380,7 +380,7 @@
     <link href="http://malcolmyu.github.io/2018/09/09/Core-Concepts-of-Mobx/"/>
     <id>http://malcolmyu.github.io/2018/09/09/Core-Concepts-of-Mobx/</id>
     <published>2018-09-09T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
 <p><strong>Anything that can be derived from the application state, should be derived. Automatically.</strong></p>
@@ -474,7 +474,7 @@
     <link href="http://malcolmyu.github.io/2017/10/14/An-in-Depth-Explanation-of-MobX/"/>
     <id>http://malcolmyu.github.io/2017/10/14/An-in-Depth-Explanation-of-MobX/</id>
     <published>2017-10-14T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.383Z</updated>
+    <updated>2020-02-02T13:45:54.865Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2017/10/14/An-in-Depth-Explanation-of-MobX/title.jpg" alt="mobx" title="mobx">
 <p>鉴于广大人民群众的要求（并为了到时候能给我的孙子吹个 NB），我写了这篇 MobX 的内部工作原理。许多朋友震惊于 MobX 的性能和一致性，但请各位放心，这里没有什么黑科技！</p>
@@ -579,7 +579,7 @@
     <link href="http://malcolmyu.github.io/2017/02/26/Dive-into-Charles-HTTPS-Proxying/"/>
     <id>http://malcolmyu.github.io/2017/02/26/Dive-into-Charles-HTTPS-Proxying/</id>
     <published>2017-02-26T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">
 <p>最近因工作需要，要用 Charles 来监听 HTTPS 的请求，然而好不容易按照网上的文章配置完成之后，却发现监听的内容居然是一坨乱码。随后进行了一个 SSL 代理配置，和手机证书的安装，才终于获取到了明文。虽然之前有了解 HTTPS 是使用大素数收到进行加密，也知道有一次非对称加密和对称加密，但是经过这次的配置发现对它的根本原理还不是很了解，于是专门研究了一下，才搞明白它的原委。</p>
@@ -681,7 +681,7 @@
     <link href="http://malcolmyu.github.io/2017/02/02/Chat-about-Redux-2/"/>
     <id>http://malcolmyu.github.io/2017/02/02/Chat-about-Redux-2/</id>
     <published>2017-02-02T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.865Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2017/02/02/Chat-about-Redux-2/title.png" alt="redux" title="redux">
 <p><a href="/2016/12/03/Chat-about-Redux-1/">上文</a>里，我们剥茧抽丝，聊了聊 Redux 里面的各种烦人概念，以及这些概念是怎么来的；本文我们着重聊一聊，让 Redux 大行其道的『中间件』。</p>
@@ -748,7 +748,7 @@
     <link href="http://malcolmyu.github.io/2017/01/14/The-Evolution-of-Hybrid-Router/"/>
     <id>http://malcolmyu.github.io/2017/01/14/The-Evolution-of-Hybrid-Router/</id>
     <published>2017-01-14T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.391Z</updated>
+    <updated>2020-02-02T13:45:54.873Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>经过近两年的发展，我们去哪儿内部的 hybrid 方案 hy，已经从 15 年年中的 hy 1.0 进一步完善和成熟，已于去年底推出了基于 react 的 hy2.0 解决方案。在框架升级的大背景下，他的路由架构体系也发生了不小的变化，希望能通过这篇文章，让大家了解到我们路由方案的选择变迁，与页面加载性能优化的手段。</p>
 <a id="more"></a>
@@ -808,7 +808,7 @@
     <link href="http://malcolmyu.github.io/2016/12/03/Chat-about-Redux-1/"/>
     <id>http://malcolmyu.github.io/2016/12/03/Chat-about-Redux-1/</id>
     <published>2016-12-03T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.865Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><img src="/2016/12/03/Chat-about-Redux-1/title.png" alt="redux" title="redux">
 <p>Redux 算是 React 全家桶里最饱受争议的一个框架，就算是天天变 API 的 <a href="https://github.com/ReactTraining/react-router" target="_blank" rel="external">React-Router</a>，也因为占据了意识形态的最高点 —— 便捷优雅的声明式路由、异步路由控制与加载，导致尽管骂声不断，却没有一个人说不用。反观 Redux，用不惯的说它夹杂了太多的私心，找遍业务线所有的代码，也找不到一个逻辑用到这么复杂的函数式；用的惯的也嫌它使用太复杂，凭空多出几个文件夹、丑陋的 <code>switch</code>、一遍一遍的常量声明，真是端起键盘开发，放下鼠标骂娘。与 React-Router 横行社区不同，Redux 从来不缺竞争者，前有 Reflux，后有 <a href="https://github.com/mobxjs/mobx" target="_blank" rel="external">Mobx</a>；但似乎也没见有一个竞争者真正撼动 redux 的地位：完美适配服务端渲染，完善的调试工具与社区支持，都让 Redux 成为 React 学习者首选的数据流框架。</p>
@@ -881,7 +881,7 @@
     <link href="http://malcolmyu.github.io/2016/10/24/Create-React-Universal-App/"/>
     <id>http://malcolmyu.github.io/2016/10/24/Create-React-Universal-App/</id>
     <published>2016-10-24T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>公司内部的公用图标字体平台 iconfont 上线一年以来，运行良好，在内部承担起了客户端减容、提高前端开发效率的任务。但由于其臃肿的架构导致的运行效率底下和页面卡顿等问题也一直给使用者造成诸多不便。我们对项目老架构导致的许多问题进行了探索总结，并针对问题提出了 react 同构的解决方案。</p>
 <a id="more"></a>
@@ -946,7 +946,7 @@
     <link href="http://malcolmyu.github.io/2016/04/02/Reaction-to-Soulstealers/"/>
     <id>http://malcolmyu.github.io/2016/04/02/Reaction-to-Soulstealers/</id>
     <published>2016-04-02T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.391Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>在弘历的这一任上，大清的盛世梦达到了最高潮。自17世纪开始，玉米、番薯、马铃薯等美洲粮食作物引入中国，战乱的平定和粮食产量的增长使得大清的人口数量翻了一番，从 1.5 亿达到了 3 亿之巨；由于西班牙人在南美的掠夺，导致白银大量流入，尽管带来的一定程度的通货膨胀，却也推动了贸易与土地交易的欣欣向荣。然而在这繁华盛世的背后，独坐龙椅的弘历叔叔却也感到了自己的中年危机。</p>
 <a id="more"></a>
@@ -996,7 +996,7 @@
     <link href="http://malcolmyu.github.io/2016/01/12/Reaction-to-A-Brief-History-of-Humankind/"/>
     <id>http://malcolmyu.github.io/2016/01/12/Reaction-to-A-Brief-History-of-Humankind/</id>
     <published>2016-01-12T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.391Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>自从去年妹子给买了 kindle 之后，前前后后读了很多书，起初的一半读得多是魏晋南北朝的门阀政治，到了后来看了些心理学的，由于一直未做笔记，总觉得没有长进。去年年底去医院挨刀子，穷极无聊之间读了这本《人类简史》，一下子就被书里新奇诡黠的内容吸引了，两天读完电子版，事后还买了纸质版以供仔细阅读。书里记载了许多新奇有趣的观点，我总结了三点，分别对应书里的认知革命、农业革命和科技革命。</p>
 <a id="more"></a>
@@ -1035,7 +1035,7 @@
     <link href="http://malcolmyu.github.io/2015/11/18/Coroutine-and-Event-Loop/"/>
     <id>http://malcolmyu.github.io/2015/11/18/Coroutine-and-Event-Loop/</id>
     <published>2015-11-18T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>最近研究了一下 es6 的生成器函数，以及传说中的 co。虽然网上关于协程、co 源码分析的文章数不胜数，但是将其与先前异步实现的事件队列结合起来说明的文章却很难寻觅。之前只知道协程是实现异步的一种方式，那其和之前的各种异步实现究竟有什么本质区别呢？本文将根据协程机制简要探讨一下<strong>引入协程之后的新的事件循环模型</strong>。由于笔者基础知识不够扎实，所以会先讲述一大堆协程产生的背景和原理，再进行模型变化的讲解。</p>
 <a id="more"></a>
@@ -1113,7 +1113,7 @@
     <link href="http://malcolmyu.github.io/2015/10/16/Git-Hooks/"/>
     <id>http://malcolmyu.github.io/2015/10/16/Git-Hooks/</id>
     <published>2015-10-16T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Git 钩子是在一个 Git 仓库中，在每一次特定事件触发时自动运行的脚本。它允许我们自定义 Git 的内部行为，并在开发的生命周期的关键时间点触发自定义行为。</p>
 <a id="more"></a>
@@ -1271,7 +1271,7 @@ The pre-rebase hook refused to rebase.
     <link href="http://malcolmyu.github.io/2015/08/01/Collaborating-Syncing/"/>
     <id>http://malcolmyu.github.io/2015/08/01/Collaborating-Syncing/</id>
     <published>2015-08-01T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>SVN 使用一个单独的中心仓库以作为开发者的通信枢纽，其协作的方式是开发者的工作副本与中央仓库互相发送变更记录。这与 Git 的协作模式有所不同，Git 中每个开发者都拥有仓库的副本，以及完整的本地历史和分支结构。用户通常只需要提供一系列的提交而不是单个的变更记录。Git 允许我们在仓库之间共享整个分支，而不是单单的从工作副本提交一个变更记录到中央仓库去。</p>
 <p>下面介绍的命令可以帮助我们管理与其他仓库的连接：我们可以使用“推送”分支的方式将本地历史发布到其他仓库，也可以使用“拉取”分支的方式将别人贡献的代码获取到本地。</p>
@@ -1391,7 +1391,7 @@ The pre-rebase hook refused to rebase.
     <link href="http://malcolmyu.github.io/2015/06/12/Promises-A-Plus/"/>
     <id>http://malcolmyu.github.io/2015/06/12/Promises-A-Plus/</id>
     <published>2015-06-12T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>英文原文：<a href="https://promisesaplus.com/" target="_blank" rel="external">Promise/A+</a><br>图灵译文：<a href="http://www.ituring.com.cn/article/66566" target="_blank" rel="external">【翻译】Promises/A+规范</a></p>
 <p><strong>译者序：</strong>一年前曾译过 Promise/A+ 规范，适时完全不懂 Promise 的思想，纯粹将翻译的过程当作学习，旧文译下来诘屈聱牙，读起来十分不顺畅。谁知这样一篇拙译，一年之间竟然点击数千，成为谷歌搜索的头条。今日在理解之后重译此规范，以飨读者。</p>
@@ -1546,7 +1546,7 @@ The pre-rebase hook refused to rebase.
     <link href="http://malcolmyu.github.io/2015/04/25/Introduction-of-Jsdoc/"/>
     <id>http://malcolmyu.github.io/2015/04/25/Introduction-of-Jsdoc/</id>
     <published>2015-04-25T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>尽管一个好的项目文档能让项目增光添彩，但文档的作用始终是锦上添花而非雪中送炭，对于开发者来说，费尽心神的整理项目文档似乎也并非是一件令人愉快的事情。在使用题中所述的工具——jsdoc和编写本文的同时，笔者也是几度懊恼：这东西在项目中真的有用吗？是不是有点浪费时间？但随着项目体量的增大和开发人员的增多，使用并自动化维护一份好的文档所带来的优势也是逐渐显现。笔者也决心写一篇科普小文，说一说文档工具的使用注意要点。</p>
 <a id="more"></a>
@@ -1766,7 +1766,7 @@ The pre-rebase hook refused to rebase.
     <link href="http://malcolmyu.github.io/2015/04/19/Avalon-Event-Bus/"/>
     <id>http://malcolmyu.github.io/2015/04/19/Avalon-Event-Bus/</id>
     <published>2015-04-19T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.865Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>在工作中经常使用到<a href="http://www.cnblogs.com/rubylouvre/" target="_blank" rel="external">司徒</a>的 <a href="https://github.com/RubyLouvre/avalon" target="_blank" rel="external">avalon</a> ，由于坑点太多，有时需要经常查阅其源码实现。而 avalon 由于方兴未艾，网上对其进行源码解析的文章并不多，查了半天也就只有这篇 <a href="http://www.cnblogs.com/sskyy/p/3679572.html" target="_blank" rel="external">MVVM 大比拼</a>，以及这篇 <a href="http://www.cnblogs.com/aaronjs/archive/2013/06/16/3138631.html" target="_blank" rel="external">avalon 源码分析</a>。个人认为这两篇文章写得都并不算好，其一是成文较早，研究的源码还是 1.2.5 版本，而目前的新版本已经到了 1.4+，比之前不知道高到哪里去。其二是大比拼一文作者阅码无数，心中早已无码，写分析只观其大要，似乎在和原作者谈笑风生；而后者的分析仿佛又只是对源码的粗略通读，也没怎么经过实践，有些图样图森破。因此自己决定安下心来写点源码分析。</p>
 <a id="more"></a>
@@ -1817,7 +1817,7 @@ The pre-rebase hook refused to rebase.
     <link href="http://malcolmyu.github.io/2014/08/30/JavaScript-Promise-In-Wicked-Detail/"/>
     <id>http://malcolmyu.github.io/2014/08/30/JavaScript-Promise-In-Wicked-Detail/</id>
     <published>2014-08-30T00:00:00.000Z</published>
-    <updated>2020-01-31T16:09:21.387Z</updated>
+    <updated>2020-02-02T13:45:54.869Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>原文链接：<a href="http://www.mattgreer.org/articles/promises-in-wicked-detail/" target="_blank" rel="external">JavaScript Promises … In Wicked Detail</a></p>
 <p>我在 JavaScript 中使用 Promise 已经有一段时间了，目前我已经能高效的使用这一开始让我晕头转向的东西。但真要细说起来，我发现还是不能完全理解它的实现原理，这也正是本文写作的目的所在。如果诸位读者也处在一知半解的状态，那请读完这篇文章，相信你也会像我一样对 Promise 有更好的理解。</p>
